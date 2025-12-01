@@ -13,11 +13,22 @@
         .item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; }
         .masuk { color: green; }
         .keluar { color: red; }
+        .saldo-box {
+            background: #007bff; 
+            color: white; 
+            text-align: center; 
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>Tabungan</h1>
     
+    <div class="card saldo-box">
+        <h4 style="margin-bottom: 5px; opacity: 0.9;">Total Tabungan Saat Ini</h4>
+        <h1 id="totalBalance" style="margin-top: 0; font-size: 2.5rem;">Rp0</h1>
+    </div>
+
     <div class="card">
         <h3>Tambah Transaksi</h3>
         <form id="financeForm">
@@ -39,12 +50,16 @@
     <script>
         async function loadData() {
             const response = await fetch('/api/transactions');
-            const data = await response.json();
             
+            const result = await response.json(); 
+            
+            const balanceElement = document.getElementById('totalBalance');
+            balanceElement.innerText = `Rp${result.balance.toLocaleString()}`;
+
             const listDiv = document.getElementById('list');
             listDiv.innerHTML = ''; 
 
-            data.forEach(item => {
+            result.transactions.forEach(item => {
                 const warna = item.type === 'Pemasukan' ? 'masuk' : 'keluar';
                 const tanda = item.type === 'Pemasukan' ? '+' : '-';
                 
@@ -58,7 +73,7 @@
                             <div class="${warna}">
                                 ${tanda} Rp${item.amount.toLocaleString()}
                             </div>
-                            <button onclick="hapusData(${item.id})" style="background:red; font-size:12px; padding:5px; margin-top:5px; width:auto;">
+                            <button onclick="hapusData(${item.id})" style="background:red; font-size:12px; padding:5px; margin-top:5px; width:auto; border-radius:4px; color:white; border:none; cursor:pointer;">
                                 Hapus
                             </button>
                         </div>

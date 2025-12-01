@@ -1,23 +1,9 @@
 [
   {
     "id": 1,
-    "description": "Tabungan Awal",
-    "amount": 10000000,
+    "description": "Uang Kaget",
+    "amount": 100000000,
     "type": "Pemasukan",
-    "date": "2025-11-25"
-  },
-  {
-    "id": 2,
-    "description": "Beli Saham BBCA",
-    "amount": 4800000,
-    "type": "Pengeluaran",
-    "date": "2025-11-30"
-  },
-  {
-    "id": 3,
-    "description": "Beli Seblak Level 5",
-    "amount": 15000,
-    "type": "Pengeluaran",
     "date": "2025-12-01"
   }
 ]

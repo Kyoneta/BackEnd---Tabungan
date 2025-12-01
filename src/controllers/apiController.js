@@ -3,16 +3,27 @@ const path = require('path');
 
 const dataPath = path.join(__dirname, '../../data/data.json');
 
-// Lihat Data
+// Lihat Data + Hitung Saldo
 const getAllTransactions = (req, res) => {
     fs.readFile(dataPath, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).json({ message: "Gagal membaca database" });
         }
         
-        const jsonData = JSON.parse(data);
-        
-        res.status(200).json(jsonData);
+        const transactions = JSON.parse(data);
+
+        const totalSaldo = transactions.reduce((total, item) => {
+            if (item.type === 'Pemasukan') {
+                return total + item.amount;
+            } else {
+                return total - item.amount;
+            }
+        }, 0); 
+
+        res.status(200).json({
+            balance: totalSaldo,       
+            transactions: transactions 
+        });
     });
 };
 
